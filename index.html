@@ -3,22 +3,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Morning Routine ☀️</title>
+  <title>My Daily Routines ✨</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap');
+
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       padding: 20px;
-      background: linear-gradient(135deg, #ffe4f0 0%, #fff9c4 50%, #d4f0ff 100%);
       font-family: 'Nunito', 'Comic Sans MS', cursive, sans-serif;
       min-height: 100vh;
+      transition: background 0.6s;
+    }
+
+    body.home-bg {
+      background: linear-gradient(135deg, #ffe4f0 0%, #fff9c4 50%, #d4f0ff 100%);
+    }
+    body.morning-bg {
+      background: linear-gradient(135deg, #fff9c4 0%, #ffe4a0 50%, #ffd4b3 100%);
+    }
+    body.evening-bg {
+      background: linear-gradient(135deg, #e8d4ff 0%, #c4d4ff 50%, #d4eaff 100%);
     }
 
     .container {
       max-width: 600px;
       margin: 0 auto;
     }
+
+    /* HOME SCREEN */
+    #home-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      gap: 30px;
+    }
+
+    .home-title {
+      text-align: center;
+      font-size: 2.6em;
+      font-weight: 900;
+      color: #d63384;
+      text-shadow: 3px 3px 0px #ffb3d1;
+    }
+
+    .home-subtitle {
+      text-align: center;
+      font-size: 1.2em;
+      color: #888;
+      margin-top: -20px;
+    }
+
+    .routine-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .routine-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 24px 32px;
+      border-radius: 24px;
+      border: none;
+      font-family: inherit;
+      font-size: 1.6em;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .routine-btn:hover {
+      transform: scale(1.04);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+    }
+
+    .routine-btn:active {
+      transform: scale(0.97);
+    }
+
+    .morning-btn {
+      background: linear-gradient(135deg, #ffd966, #ffb347);
+      color: #7a4800;
+    }
+
+    .evening-btn {
+      background: linear-gradient(135deg, #b39ddb, #7986cb);
+      color: white;
+    }
+
+    /* ROUTINE SCREEN */
+    #routine-screen { display: none; }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      border: none;
+      font-family: inherit;
+      font-size: 1em;
+      font-weight: 700;
+      color: #888;
+      padding: 8px 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+      transition: background 0.2s;
+    }
+    .back-btn:hover { background: #f5f5f5; }
 
     .title {
       text-align: center;
@@ -28,6 +130,7 @@
       text-shadow: 3px 3px 0px #ffb3d1;
       margin-bottom: 8px;
     }
+    .title.evening-title { color: #7986cb; text-shadow: 3px 3px 0px #c5cae9; }
 
     .subtitle {
       text-align: center;
@@ -46,24 +149,35 @@
       gap: 18px;
       box-shadow: 0 4px 14px rgba(0,0,0,0.08);
       border-left: 7px solid #ffb3d1;
+      cursor: pointer;
       transition: transform 0.15s;
+      user-select: none;
     }
 
-    .card:hover {
-      transform: scale(1.02);
-    }
+    .card:hover { transform: scale(1.02); }
 
-    .card:nth-child(1)  { border-left-color: #ffb347; }
-    .card:nth-child(2)  { border-left-color: #ff69b4; }
-    .card:nth-child(3)  { border-left-color: #c77dff; }
-    .card:nth-child(4)  { border-left-color: #4fc3f7; }
-    .card:nth-child(5)  { border-left-color: #81c784; }
-    .card:nth-child(6)  { border-left-color: #ff8a65; }
-    .card:nth-child(7)  { border-left-color: #f06292; }
-    .card:nth-child(8)  { border-left-color: #aed581; }
-    .card:nth-child(9)  { border-left-color: #4db6ac; }
-    .card:nth-child(10) { border-left-color: #7986cb; }
-    .card:nth-child(11) { border-left-color: #ba68c8; }
+    /* Morning colors */
+    .morning-cards .card:nth-child(1)  { border-left-color: #ffb347; }
+    .morning-cards .card:nth-child(2)  { border-left-color: #ff69b4; }
+    .morning-cards .card:nth-child(3)  { border-left-color: #c77dff; }
+    .morning-cards .card:nth-child(4)  { border-left-color: #4fc3f7; }
+    .morning-cards .card:nth-child(5)  { border-left-color: #81c784; }
+    .morning-cards .card:nth-child(6)  { border-left-color: #ff8a65; }
+    .morning-cards .card:nth-child(7)  { border-left-color: #f06292; }
+    .morning-cards .card:nth-child(8)  { border-left-color: #aed581; }
+    .morning-cards .card:nth-child(9)  { border-left-color: #4db6ac; }
+    .morning-cards .card:nth-child(10) { border-left-color: #7986cb; }
+    .morning-cards .card:nth-child(11) { border-left-color: #ba68c8; }
+
+    /* Evening colors */
+    .evening-cards .card:nth-child(1)  { border-left-color: #9575cd; }
+    .evening-cards .card:nth-child(2)  { border-left-color: #7986cb; }
+    .evening-cards .card:nth-child(3)  { border-left-color: #64b5f6; }
+    .evening-cards .card:nth-child(4)  { border-left-color: #ba68c8; }
+    .evening-cards .card:nth-child(5)  { border-left-color: #4db6ac; }
+    .evening-cards .card:nth-child(6)  { border-left-color: #7e57c2; }
+    .evening-cards .card:nth-child(7)  { border-left-color: #f48fb1; }
+    .evening-cards .card:nth-child(8)  { border-left-color: #5c6bc0; }
 
     .step-number {
       font-size: 1.3em;
@@ -93,19 +207,20 @@
       border-radius: 50%;
       border: 3px solid #ddd;
       flex-shrink: 0;
-      cursor: pointer;
       transition: background 0.2s, border-color 0.2s;
+      position: relative;
     }
 
-    .checkbox:hover {
-      border-color: #ff69b4;
-      background: #fff0f7;
-    }
+    .card:hover .checkbox { border-color: #ff69b4; background: #fff0f7; }
+    .evening-cards .card:hover .checkbox { border-color: #7986cb; background: #f3f0ff; }
 
     .checkbox.checked {
       background: #ff69b4;
       border-color: #ff69b4;
-      position: relative;
+    }
+    .evening-cards .checkbox.checked {
+      background: #7986cb;
+      border-color: #7986cb;
     }
 
     .checkbox.checked::after {
@@ -119,9 +234,10 @@
       transform: translate(-50%, -50%);
     }
 
+    .card.done .label { text-decoration: line-through; color: #bbb; }
+
     .farewell {
       text-align: center;
-      background: linear-gradient(135deg, #ff69b4, #c77dff);
       color: white;
       border-radius: 20px;
       padding: 20px 24px;
@@ -130,7 +246,10 @@
       font-weight: 900;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
       box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+      display: none;
     }
+    .morning-farewell { background: linear-gradient(135deg, #ff69b4, #c77dff); }
+    .evening-farewell { background: linear-gradient(135deg, #7986cb, #9575cd); }
 
     .reset-btn {
       display: block;
@@ -145,134 +264,247 @@
       border-radius: 50px;
       cursor: pointer;
       transition: background 0.2s, color 0.2s;
+      display: none;
     }
-
-    .reset-btn:hover {
-      background: #ff69b4;
-      color: white;
-    }
+    .reset-btn.evening-reset { border-color: #7986cb; color: #7986cb; }
+    .reset-btn:hover { background: #ff69b4; color: white; }
+    .reset-btn.evening-reset:hover { background: #7986cb; color: white; }
 
     .stars {
       text-align: center;
       font-size: 2em;
       margin-top: 10px;
       letter-spacing: 4px;
+      display: none;
     }
   </style>
 </head>
-<body>
+<body class="home-bg">
   <div class="container">
-    <div class="title">☀️ My Morning Routine</div>
-    <div class="subtitle">Check off each step as you go!</div>
 
-    <div class="card" onclick="toggle(this)">
-      <div class="step-number">1</div>
-      <div class="emoji">🍳</div>
-      <div class="label">Eat breakfast</div>
-      <div class="checkbox"></div>
+    <!-- HOME SCREEN -->
+    <div id="home-screen">
+      <div>
+        <div class="home-title">✨ Daily Routines ✨</div>
+        <div class="home-subtitle">Which routine are we doing today?</div>
+      </div>
+      <div class="routine-buttons">
+        <button class="routine-btn morning-btn" onclick="showRoutine('morning')">
+          ☀️ Morning Routine
+        </button>
+        <button class="routine-btn evening-btn" onclick="showRoutine('evening')">
+          🌙 Evening Routine
+        </button>
+      </div>
     </div>
 
-    <div class="card" onclick="toggle(this)">
-      <div class="step-number">2</div>
-      <div class="emoji">👗</div>
-      <div class="label">Get dressed</div>
-      <div class="checkbox"></div>
+    <!-- ROUTINE SCREEN -->
+    <div id="routine-screen">
+      <button class="back-btn" onclick="goHome()">← Back</button>
+
+      <!-- MORNING -->
+      <div id="morning-routine" style="display:none">
+        <div class="title">☀️ Good Morning! ☀️</div>
+        <div class="subtitle">Let's get ready for a great day!</div>
+        <div class="morning-cards" id="morning-cards">
+          <div class="card" onclick="toggle(this,'morning')">
+            <div class="step-number">1</div>
+            <div class="emoji">🍳</div>
+            <div class="label">Eat breakfast</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'morning')">
+            <div class="step-number">2</div>
+            <div class="emoji">👗</div>
+            <div class="label">Get dressed</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'morning')">
+            <div class="step-number">3</div>
+            <div class="emoji">💇‍♀️</div>
+            <div class="label">Brush your hair</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'morning')">
+            <div class="step-number">4</div>
+            <div class="emoji">🚽</div>
+            <div class="label">Go potty</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'morning')">
+            <div class="step-number">5</div>
+            <div class="emoji">🪥</div>
+            <div class="label">Brush your teeth</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'morning')">
+            <div class="step-number">6</div>
+            <div class="emoji">🧼</div>
+            <div class="label">Wash your face</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'morning')">
+            <div class="step-number">7</div>
+            <div class="emoji">💊</div>
+            <div class="label">Take meds</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'morning')">
+            <div class="step-number">8</div>
+            <div class="emoji">💍</div>
+            <div class="label">Jewelry on</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'morning')">
+            <div class="step-number">9</div>
+            <div class="emoji">👟</div>
+            <div class="label">Shoes &amp; socks on</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'morning')">
+            <div class="step-number">10</div>
+            <div class="emoji">🎒</div>
+            <div class="label">Prepare backpack</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'morning')">
+            <div class="step-number">11</div>
+            <div class="emoji">🚗</div>
+            <div class="label">Get in the car &amp; head to school!</div>
+            <div class="checkbox"></div>
+          </div>
+        </div>
+        <div class="farewell morning-farewell" id="morning-farewell">
+          🌟 You did it! Have an AMAZING day! 🌟
+        </div>
+        <div class="stars" id="morning-stars">⭐ ⭐ ⭐</div>
+        <button class="reset-btn" id="morning-reset" onclick="resetRoutine('morning')">🔄 Start Over</button>
+      </div>
+
+      <!-- EVENING -->
+      <div id="evening-routine" style="display:none">
+        <div class="title evening-title">🌙 Good Evening! 🌙</div>
+        <div class="subtitle">Let's wind down for a cozy night!</div>
+        <div class="evening-cards" id="evening-cards">
+          <div class="card" onclick="toggle(this,'evening')">
+            <div class="step-number">1</div>
+            <div class="emoji">🧼</div>
+            <div class="label">Wash your face</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'evening')">
+            <div class="step-number">2</div>
+            <div class="emoji">🪥</div>
+            <div class="label">Brush your teeth</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'evening')">
+            <div class="step-number">3</div>
+            <div class="emoji">🫧</div>
+            <div class="label">Mouthwash</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'evening')">
+            <div class="step-number">4</div>
+            <div class="emoji">💊</div>
+            <div class="label">Take meds</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'evening')">
+            <div class="step-number">5</div>
+            <div class="emoji">🚽</div>
+            <div class="label">Go potty</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'evening')">
+            <div class="step-number">6</div>
+            <div class="emoji">🌙</div>
+            <div class="label">Jammies on</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'evening')">
+            <div class="step-number">7</div>
+            <div class="emoji">🙏</div>
+            <div class="label">Prayers &amp; snuggles</div>
+            <div class="checkbox"></div>
+          </div>
+          <div class="card" onclick="toggle(this,'evening')">
+            <div class="step-number">8</div>
+            <div class="emoji">💤</div>
+            <div class="label">Sweet dreams!</div>
+            <div class="checkbox"></div>
+          </div>
+        </div>
+        <div class="farewell evening-farewell" id="evening-farewell">
+          🌙 Sleep tight, sweet girl! 💜
+        </div>
+        <div class="stars" id="evening-stars">🌟 🌟 🌟</div>
+        <button class="reset-btn evening-reset" id="evening-reset" onclick="resetRoutine('evening')">🔄 Start Over</button>
+      </div>
     </div>
 
-    <div class="card" onclick="toggle(this)">
-      <div class="step-number">3</div>
-      <div class="emoji">💇‍♀️</div>
-      <div class="label">Brush your hair</div>
-      <div class="checkbox"></div>
-    </div>
-
-    <div class="card" onclick="toggle(this)">
-      <div class="step-number">4</div>
-      <div class="emoji">🚽</div>
-      <div class="label">Go potty</div>
-      <div class="checkbox"></div>
-    </div>
-
-    <div class="card" onclick="toggle(this)">
-      <div class="step-number">5</div>
-      <div class="emoji">🪥</div>
-      <div class="label">Brush your teeth</div>
-      <div class="checkbox"></div>
-    </div>
-
-    <div class="card" onclick="toggle(this)">
-      <div class="step-number">6</div>
-      <div class="emoji">🧼</div>
-      <div class="label">Wash your face</div>
-      <div class="checkbox"></div>
-    </div>
-
-    <div class="card" onclick="toggle(this)">
-      <div class="step-number">7</div>
-      <div class="emoji">💊</div>
-      <div class="label">Take meds</div>
-      <div class="checkbox"></div>
-    </div>
-
-    <div class="card" onclick="toggle(this)">
-      <div class="step-number">8</div>
-      <div class="emoji">💍</div>
-      <div class="label">Jewelry on</div>
-      <div class="checkbox"></div>
-    </div>
-
-    <div class="card" onclick="toggle(this)">
-      <div class="step-number">9</div>
-      <div class="emoji">👟</div>
-      <div class="label">Shoes &amp; socks on</div>
-      <div class="checkbox"></div>
-    </div>
-
-    <div class="card" onclick="toggle(this)">
-      <div class="step-number">10</div>
-      <div class="emoji">🎒</div>
-      <div class="label">Prepare backpack</div>
-      <div class="checkbox"></div>
-    </div>
-
-    <div class="card" onclick="toggle(this)">
-      <div class="step-number">11</div>
-      <div class="emoji">🚗</div>
-      <div class="label">Get in the car &amp; head to school!</div>
-      <div class="checkbox"></div>
-    </div>
-
-    <div class="farewell">
-      🌟 See you next time! 🌟
-    </div>
-
-    <div class="stars" id="stars"></div>
-
-    <button class="reset-btn" onclick="resetAll()">🔄 Start Over</button>
   </div>
 
   <script>
-    function toggle(card) {
-      const box = card.querySelector('.checkbox');
-      box.classList.toggle('checked');
-      checkAll();
+    function showRoutine(type) {
+      document.getElementById('home-screen').style.display = 'none';
+      document.getElementById('routine-screen').style.display = 'block';
+      document.getElementById('morning-routine').style.display = type === 'morning' ? 'block' : 'none';
+      document.getElementById('evening-routine').style.display = type === 'evening' ? 'block' : 'none';
+      document.body.className = type + '-bg';
     }
 
-    function checkAll() {
-      const total = document.querySelectorAll('.checkbox').length;
-      const done = document.querySelectorAll('.checkbox.checked').length;
-      const stars = document.getElementById('stars');
-      if (done === total) {
-        stars.textContent = '⭐⭐⭐ Amazing job! ⭐⭐⭐';
+    function goHome() {
+      document.getElementById('home-screen').style.display = 'flex';
+      document.getElementById('routine-screen').style.display = 'none';
+      document.body.className = 'home-bg';
+    }
+
+    function toggle(card, type) {
+      const cb = card.querySelector('.checkbox');
+      const isChecked = cb.classList.toggle('checked');
+      card.classList.toggle('done', isChecked);
+
+      const cardsId = type + '-cards';
+      const cards = document.querySelectorAll('#' + cardsId + ' .card');
+      const allDone = [...cards].every(c => c.querySelector('.checkbox').classList.contains('checked'));
+
+      const farewell = document.getElementById(type + '-farewell');
+      const stars = document.getElementById(type + '-stars');
+      const reset = document.getElementById(type + '-reset');
+
+      if (allDone) {
+        farewell.style.display = 'block';
+        stars.style.display = 'block';
+        reset.style.display = 'block';
+        farewell.style.animation = 'none';
+        void farewell.offsetWidth;
+        farewell.style.animation = 'pop 0.4s ease';
       } else {
-        stars.textContent = '';
+        farewell.style.display = 'none';
+        stars.style.display = 'none';
+        reset.style.display = 'none';
       }
     }
 
-    function resetAll() {
-      document.querySelectorAll('.checkbox.checked').forEach(b => b.classList.remove('checked'));
-      document.getElementById('stars').textContent = '';
+    function resetRoutine(type) {
+      const cards = document.querySelectorAll('#' + type + '-cards .card');
+      cards.forEach(card => {
+        card.querySelector('.checkbox').classList.remove('checked');
+        card.classList.remove('done');
+      });
+      document.getElementById(type + '-farewell').style.display = 'none';
+      document.getElementById(type + '-stars').style.display = 'none';
+      document.getElementById(type + '-reset').style.display = 'none';
     }
   </script>
+
+  <style>
+    @keyframes pop {
+      0%   { transform: scale(0.8); opacity: 0; }
+      70%  { transform: scale(1.05); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
 </body>
 </html>
