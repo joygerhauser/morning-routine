@@ -1,0 +1,17 @@
+{
+  "name": "Daily Routines",
+  "short_name": "Routines",
+  "description": "Morning & Evening Routine Chart",
+  "start_url": "/morning-routine/",
+  "display": "standalone",
+  "background_color": "#fff9e6",
+  "theme_color": "#FFD166",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
